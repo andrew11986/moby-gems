@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moby: Приховані перлини | Hidden Gems</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --accent-blue: #4a9eff;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --text-primary: #e8e8f0;
+            --text-secondary: #9898a8;
+            --text-muted: #6b6b7b;
+            --border-subtle: rgba(255,255,255,0.08);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 0%, rgba(74, 158, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(236, 72, 153, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), var(--accent-purple), transparent);
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-blue) 50%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .track-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            margin-bottom: 48px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .track-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.4),
+                0 0 60px rgba(74, 158, 255, 0.08);
+        }
+        
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        
+        .track-info {
+            padding: 28px 32px;
+        }
+        
+        .track-header {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .track-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            background: rgba(74, 158, 255, 0.12);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        
+        .track-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .track-meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .track-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .track-meta span::before {
+            content: '◆';
+            font-size: 0.5rem;
+            color: var(--accent-purple);
+        }
+        
+        .track-meta span:first-child::before {
+            display: none;
+        }
+        
+        .track-description {
+            color: var(--text-secondary);
+            font-size: 1.02rem;
+            line-height: 1.8;
+        }
+        
+        .era-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 6px 14px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .era-rave { background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; }
+        .era-punk { background: linear-gradient(135deg, #dc2626, #991b1b); color: #fff; }
+        .era-ambient { background: linear-gradient(135deg, #0ea5e9, #0284c7); color: #fff; }
+        .era-late { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: #fff; }
+        
+        footer {
+            text-align: center;
+            padding: 60px 24px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 40px;
+        }
+        
+        footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 16px;
+            }
+            
+            .track-info {
+                padding: 20px;
+            }
+            
+            .track-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Moby: Приховані перлини</h1>
+            <p class="subtitle">10 маловідомих треків з різних періодів кар'єри Річарда Мелвілла Холла — від рейву 90-х до сучасних експериментів</p>
+        </header>
+        
+        <main>
+            <!-- Track 1: Go -->
+            <article class="track-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/vMmYv_r04SY" title="Moby - Go (1991)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="track-info">
+                    <span class="era-badge era-rave">Ранній техно / рейв</span>
+                    <div class="track-header">
+                        <span class="track-number">01</span>
+                        <h2 class="track-title">Go</h2>
+                    </div>
+                    <div class="track-meta">
+                        <span>1991</span>
+                        <span>Moby (дебютний альбом)</span>
+                    </div>
+                    <p class="track-description">
+                        Дебютний хіт Moby, який вивів його на міжнародну сцену. Трек побудований на семплі з культового серіалу Twin Peaks — «Laura Palmer's Theme» Анджело Бадаламенті. Записаний у квартирі за бюджет близько 4 доларів, він досяг топ-10 у Британії. Це приклад того, як Moby з перших кроків умів поєднувати кінематографічну атмосферу з танцювальною енергією рейву.
+                    </p>
+                </div>
+            </article>
+            
+            <!-- Track 2: Thousand -->
+            <article class="track-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/ULNA697_km0" title="Moby - Thousand (1993)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="track-info">
+                    <span class="era-badge era-rave">Ранній техно / рейв</span>
+                    <div class="track-header">
+                        <span class="track-number">02</span>
+                        <h2 class="track-title">Thousand</h2>
+                    </div>
+                    <div class="track-meta">
+                        <span>1993</span>
+                        <span>B-side до I Feel It</span>
+                    </div>
+                    <p class="track-description">
+                        Трек, що потрапив до Книги рекордів Гіннеса як найшвидший комерційно випущений сингл — приблизно 1015 BPM на піку. Починається з повільного пульсу і поступово розганяється до божевільної швидкості, доводячи до абсурду саму ідею хардкор-техно. Це не стільки танцювальна музика, скільки концептуальний жарт і експеримент над межами жанру.
+                    </p>
+                </div>
+            </article>
+            
+            <!-- Track 3: Feeling So Real -->
+            <article class="track-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/6GBQBoDp2TY" title="Moby - Feeling So Real (1994)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="track-info">
+                    <span class="era-badge era-rave">Ранній техно / рейв</span>
+                    <div class="track-header">
+                        <span class="track-number">03</span>
+                        <h2 class="track-title">Feeling So Real</h2>
+                    </div>
+                    <div class="track-meta">
+                        <span>1994</span>
+                        <span>Everything Is Wrong</span>
+                    </div>
+                    <p class="track-description">
+                        Еуфорійний хардкор-техно з ангельським вокалом — журнал Spin поставив цей трек на перше місце серед найкращих синглів 1995 року. Незважаючи на те, що Moby — трезвенник і християнин, він створив ідеальний рейв-антем, який передає гедоністичний раш нічних клубів. Один із прикладів, коли швидкість і мелодика ідеально збалансовані.
+                    </p>
+                </div>
+            </article>
+            
+            <!-- Track 4: That's When I Reach for My Revolver -->
+            <article class="track-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/lzuH6jKjrUY" title="Moby - That's When I Reach for My Revolver (1996)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="track-info">
+                    <span class="era-badge era-punk">Панк-період</span>
+                    <div class="track-header">
+                        <span class="track-number">04</span>
+                        <h2 class="track-title">That's When I Reach for My Revolver</h2>
+                    </div>
+                    <div class="track-meta">
+                        <span>1996</span>
+                        <span>Animal Rights</span>
+                    </div>
+                    <p class="track-description">
+                        Кавер на пісню культового пост-панк гурту Mission of Burma. Альбом Animal Rights майже знищив кар'єру Moby — фанати електроніки були шоковані раптовим переходом до панк-року. Але сам Moby називає цей альбом улюбленим. Цей трек — чистий, агресивний панк без жодної електронної продукції, що показує корені Moby як гітариста хардкор-гуртів 80-х.
+                    </p>
+                </div>
+            </article>
+            
+            <!-- Track 5: Come On Baby -->
+            <article class="track-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/w0RljuDt3Q4" title="Moby - Come On Baby (1996)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="track-info">
+                    <span class="era-badge era-punk">Панк-період</span>
+                    <div class="track-header">
+                        <span class="track-number">05</span>
+                        <h2 class="track-title">Come On Baby</h2>
+                    </div>
+                    <div class="track-meta">
+                        <span>1996</span>
+                        <span>Animal Rights</span>
+                    </div>
+                    <p class="track-description">
+                        Ще один зразок «панкового» Moby з Animal Rights. Агресивний, сирий, з перекрученими гітарами і криком замість співу. Moby гастролював з цим матеріалом як розігрівальний артист Soundgarden і грав перед аудиторією, яка здебільшого не розуміла, хто цей божевільний чоловік на сцені. Комерційний провал, але чесний творчий вибір.
+                    </p>
+                </div>
+            </article>
+            
+            <!-- Track 6: God Moving Over the Face of the Waters -->
+            <article class="track-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/3tI1pu5rfZw" title="Moby - God Moving Over the Face of the Waters (1995)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="track-info">
+                    <span class="era-badge era-ambient">Ембієнт / Кінематографічне</span>
+                    <div class="track-header">
+                        <span class="track-number">06</span>
+                        <h2 class="track-title">God Moving Over the Face of the Waters</h2>
+                    </div>
+                    <div class="track-meta">
+                        <span>1995</span>
+                        <span>Everything Is Wrong</span>
+                    </div>
+                    <p class="track-description">
+                        Сам Moby називає цей інструментальний трек найкращою піснею, яку він коли-небудь написав. Використовувався у фіналі культового фільму «Схватка» (Heat) Майкла Манна. Назва — посилання на Книгу Буття. Епічна композиція, що поєднує фортепіано, симфонічні синтезатори та наростаючу емоційну інтенсивність. Доказ того, що електронна музика може бути глибоко духовною.
+                    </p>
+                </div>
+            </article>
+            
+            <!-- Track 7: Everloving -->
+            <article class="track-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/VkxaChLEDRM" title="Moby - Everloving (1999)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="track-info">
+                    <span class="era-badge era-ambient">Ембієнт / Кінематографічне</span>
+                    <div class="track-header">
+                        <span class="track-number">07</span>
+                        <h2 class="track-title">Everloving</h2>
+                    </div>
+                    <div class="track-meta">
+                        <span>1999</span>
+                        <span>Play</span>
+                    </div>
+                    <p class="track-description">
+                        Трек з альбому Play, який не став синглом, але має цікаву історію. Moby записав його на касетну демо-плівку і так і не зміг нормально звести — тому на платівці, що продалася 12 мільйонами копій, ви чуєте касетний шум і вау-ефект. Пісня використовувалася у фільмах «Кожен ваш хід» (Any Given Sunday) та «Фаворит» (Seabiscuit). Меланхолійна краса в недосконалості.
+                    </p>
+                </div>
+            </article>
+            
+            <!-- Track 8: A Case for Shame -->
+            <article class="track-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/f9wNWKc4TJU" title="Moby - A Case for Shame (2013)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="track-info">
+                    <span class="era-badge era-late">Пізні експерименти</span>
+                    <div class="track-header">
+                        <span class="track-number">08</span>
+                        <h2 class="track-title">A Case for Shame</h2>
+                    </div>
+                    <div class="track-meta">
+                        <span>2013</span>
+                        <span>Innocents (feat. Cold Specks)</span>
+                    </div>
+                    <p class="track-description">
+                        Колаборація з канадською співачкою Cold Specks — один із найсиріших і найемоційніших треків пізнього Moby. Гіпнотичне фортепіано, далекі гармонії, примарні барабани. Moby сам зняв кліп, де плаває під водою серед персонажів у масках тварин. Експериментальне відео, натхненне роботами Джека Сміта — героя андеграундного кіно, який вплинув на Воргола і Фелліні.
+                    </p>
+                </div>
+            </article>
+            
+            <!-- Track 9: The Lonely Night -->
+            <article class="track-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/s6NZA0U-k5c" title="Moby - The Lonely Night (2013)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="track-info">
+                    <span class="era-badge era-late">Пізні експерименти</span>
+                    <div class="track-header">
+                        <span class="track-number">09</span>
+                        <h2 class="track-title">The Lonely Night</h2>
+                    </div>
+                    <div class="track-meta">
+                        <span>2013</span>
+                        <span>Innocents (feat. Mark Lanegan)</span>
+                    </div>
+                    <p class="track-description">
+                        Дует з Марком Ланеганом (Screaming Trees, Queens of the Stone Age) — одним із найхарактерніших голосів альтернативного року. Moby був фанатом Ланегана з часів його ранніх записів на SST Records. Результат — повільний, похмурий трек про «темну ніч душі». У 2021 році Moby перезаписав пісню для альбому Reprise з додаванням Кріса Крістоферсона — два найбільш гравійних голоси разом.
+                    </p>
+                </div>
+            </article>
+            
+            <!-- Track 10: Almost Home -->
+            <article class="track-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/vevdB_3yZy0" title="Moby - Almost Home (2013)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="track-info">
+                    <span class="era-badge era-late">Пізні експерименти</span>
+                    <div class="track-header">
+                        <span class="track-number">10</span>
+                        <h2 class="track-title">Almost Home</h2>
+                    </div>
+                    <div class="track-meta">
+                        <span>2013</span>
+                        <span>Innocents (feat. Damien Jurado)</span>
+                    </div>
+                    <p class="track-description">
+                        Колаборація з інді-фолк артистом Дем'єном Хурадо з Сієтла. Moby, відомий веган і захисник прав тварин, зняв для цієї пісні «найкраще відео в історії за бюджет 0 доларів» — він просто тримає листки з текстом пісні, граючись із собаками та котами у притулку Best Friends Animal Society в Лос-Анджелесі. Ніжна, атмосферна пісня про пошук дому.
+                    </p>
+                </div>
+            </article>
+        </main>
+        
+        <footer>
+            <p>Richard Melville Hall aka Moby • Від рейву до панку, від ембієнту до соулу</p>
+            <p style="margin-top: 8px;">Офіційний канал: <a href="https://www.youtube.com/@moby" target="_blank">youtube.com/@moby</a></p>
+        </footer>
+    </div>
+</body>
+</html>
